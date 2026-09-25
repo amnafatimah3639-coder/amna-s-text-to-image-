@@ -1,1 +1,3 @@
-# amna-s-text-to-image-
+streamlit>=1.38
+requests>=2.32
+Pillow>=10.4
