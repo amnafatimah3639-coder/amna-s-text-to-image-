@@ -7,7 +7,7 @@ from PIL import Image
 
 
 HF_MODEL_ID = "black-forest-labs/FLUX.1-schnell"
-HF_API_URL = f"https://router.huggingface.co/hf-inference/models/{HF_MODEL_ID}"
+HF_API_URL = f"https://router.huggingface.co/hf-inference/models/..."
 GROQ_MODEL_ID = "llama-3.3-70b-versatile"
 
 
