@@ -422,12 +422,3 @@ st.caption(
 )
 ```
 
-Do **not** paste the following into `app.py`:
-
-```text
-If you're using Streamlit Cloud...
-```
-
-That was an instruction for you, not part of the Python file.
-
-For Streamlit Cloud, put your keys under **App → Settings → Secrets**. Also, because the API keys you previously posted were exposed, use **newly regenerated keys**.
