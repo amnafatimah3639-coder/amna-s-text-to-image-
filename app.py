@@ -13,9 +13,6 @@ from PIL import Image
 
 HF_MODEL_ID = "stable-diffusion-v1-5/stable-diffusion-v1-5"
 
-# IMPORTANT:
-# Use the current Hugging Face Router.
-# Do NOT use api-inference.huggingface.co
 HF_API_URL = (
     f"https://router.huggingface.co/hf-inference/models/{HF_MODEL_ID}"
 )
@@ -35,7 +32,7 @@ st.set_page_config(
 
 
 # ============================================================
-# SECRET FUNCTION
+# GET SECRET
 # ============================================================
 
 def get_secret(name):
@@ -158,6 +155,7 @@ def generate_image(prompt, hf_token, max_retries=3):
 
             try:
                 result = response.json()
+
                 wait_time = result.get(
                     "estimated_time",
                     20
@@ -240,6 +238,10 @@ st.write(
 st.divider()
 
 
+# ============================================================
+# PROMPT
+# ============================================================
+
 prompt = st.text_area(
     "📝 Enter your image prompt",
     placeholder=(
@@ -251,11 +253,19 @@ prompt = st.text_area(
 )
 
 
+# ============================================================
+# GROQ OPTION
+# ============================================================
+
 enhance = st.checkbox(
     "✨ Enhance my prompt with Groq",
     value=False
 )
 
+
+# ============================================================
+# GENERATE BUTTON
+# ============================================================
 
 generate = st.button(
     "🎨 Generate Image",
@@ -285,9 +295,9 @@ if generate:
     final_prompt = prompt.strip()
 
 
-    # --------------------------------------------------------
-    # GROQ
-    # --------------------------------------------------------
+    # ========================================================
+    # GROQ PROMPT ENHANCEMENT
+    # ========================================================
 
     if enhance:
 
@@ -311,6 +321,7 @@ if generate:
                 with st.expander(
                     "View enhanced prompt"
                 ):
+
                     st.write(final_prompt)
 
             except Exception as error:
@@ -327,13 +338,12 @@ if generate:
                 final_prompt = prompt.strip()
 
 
-    # --------------------------------------------------------
+    # ========================================================
     # IMAGE GENERATION
-    # --------------------------------------------------------
+    # ========================================================
 
     with st.spinner(
-        "🎨 Generating image... "
-        "Please wait."
+        "🎨 Generating image... Please wait."
     ):
 
         try:
@@ -356,9 +366,9 @@ if generate:
             st.stop()
 
 
-    # --------------------------------------------------------
-    # SHOW IMAGE
-    # --------------------------------------------------------
+    # ========================================================
+    # DISPLAY IMAGE
+    # ========================================================
 
     st.success(
         "🎉 Image generated successfully!"
@@ -371,9 +381,9 @@ if generate:
     )
 
 
-    # --------------------------------------------------------
-    # DOWNLOAD
-    # --------------------------------------------------------
+    # ========================================================
+    # DOWNLOAD IMAGE
+    # ========================================================
 
     image_buffer = io.BytesIO()
 
@@ -402,21 +412,22 @@ st.caption(
 )
 ```
 
-### 2. `requirements.txt`
+### Very important
+
+Your `app.py` should **end here**:
+
+```python
+st.caption(
+    "Powered by Hugging Face and Groq"
+)
+```
+
+Do **not** paste the following into `app.py`:
 
 ```text
-streamlit
-requests
-Pillow
+If you're using Streamlit Cloud...
 ```
 
-### 3. `.streamlit/secrets.toml`
+That was an instruction for you, not part of the Python file.
 
-```toml
-HF_TOKEN = "YOUR_NEW_HUGGINGFACE_TOKEN"
-GROQ_API_KEY = "YOUR_NEW_GROQ_API_KEY"
-```
-
-**Do not put your actual API keys into `app.py`.** Use the newly regenerated keys because the previous ones were exposed.
-
-If you're using **Streamlit Cloud**, put the two secrets in **App → Settings → Secrets** instead of uploading `secrets.toml`.
+For Streamlit Cloud, put your keys under **App → Settings → Secrets**. Also, because the API keys you previously posted were exposed, use **newly regenerated keys**.
